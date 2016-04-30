@@ -1,0 +1,23 @@
+Package: R6Frame
+Type: Package
+Title: R6 wrapper for data frames.
+Version: 0.1.0
+Authors@R: person("Kristian D.", "Olsen", , "kristian@doingit.no", c("aut", "cre"))
+Description: Provides a R6 "frame" around data which allows one to create more
+    complex objects/operations based on the underlying data.
+License: MIT + file LICENSE
+LazyData: TRUE
+Depends:
+    R (>= 3.2)
+Imports:
+    data.table (>= 1.9.7),
+    lazyeval,
+    R6
+Suggests:
+    dplyr,
+    knitr,
+    rmarkdown,
+    testthat,
+    tidyr
+VignetteBuilder: knitr
+RoxygenNote: 5.0.1
