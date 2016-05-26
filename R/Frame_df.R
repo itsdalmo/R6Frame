@@ -1,7 +1,7 @@
 #' R6Frame: rbind
 #'
-#' \code{\link[base]{rbind}} method for \code{R6Frame} objects. Labels and associations
-#' are also merged if you are binding other R6Frames.
+#' A new generic for \code{\link[base]{rbind}} which includes a default method, and
+#' a method for \code{R6Frame}. For all other objects, it defaults to the base method.
 #'
 #' @param x A \code{R6Frame}.
 #' @param ... Additional parameters passed to \code{rbind}.
@@ -11,14 +11,20 @@
 #' @examples
 #' NULL
 
+rbind <- function(x, ...) UseMethod("rbind")
+
+#' @export
+rbind.default <- function(x, ...) rbind(x, ...)
+
+#' @export
 rbind.R6Frame <- function(x, ...) {
   x$do_merge("rbind", list(...))
 }
 
 #' R6Frame: cbind
 #'
-#' \code{\link[base]{cbind}} method for \code{R6Frame} objects. Labels and associations
-#' are also merged if you are binding other R6Frames.
+#' A new generic for \code{\link[base]{cbind}} which includes a default method, and
+#' a method for \code{R6Frame}. For all other objects, it defaults to the base method.
 #'
 #' @param x A \code{R6Frame}.
 #' @param ... Additional parameters passed to \code{cbind}.
@@ -28,6 +34,12 @@ rbind.R6Frame <- function(x, ...) {
 #' @examples
 #' NULL
 
+cbind <- function(x, ...) UseMethod("cbind")
+
+#' @export
+cbind.default <- function(x, ...) rbind(x, ...)
+
+#' @export
 cbind.R6Frame <- function(x, ...) {
   x$do_merge("cbind", list(...))
 }
@@ -66,15 +78,13 @@ names.R6Frame <- function(x) {
 #' @importFrom utils head
 #' @export
 head.R6Frame <- function(x, ...) {
-  f <- get("head", asNamespace("utils"))
-  x$do(f, list(...))
+  x$do(utils::head, list(...))
 }
 
 #' @importFrom utils tail
 #' @export
 tail.R6Frame <- function(x, ...) {
-  f <- get("tail", asNamespace("utils"))
-  x$do(f, list(...))
+  x$do(utils::tail, list(...))
 }
 
 #' @export
