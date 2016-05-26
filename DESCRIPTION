@@ -1,6 +1,6 @@
 Package: R6Frame
 Type: Package
-Title: R6 wrapper for data frames.
+Title: R6 wrapper for data frames
 Version: 0.1.0
 Authors@R: person("Kristian D.", "Olsen", , "kristian@doingit.no", c("aut", "cre"))
 Description: Provides a R6 "frame" around data which allows one to create more
@@ -16,6 +16,7 @@ Imports:
 Suggests:
     dplyr,
     knitr,
+    reshape2,
     rmarkdown,
     testthat,
     tidyr
