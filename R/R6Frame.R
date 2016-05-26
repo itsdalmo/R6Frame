@@ -97,8 +97,7 @@ R6Frame <- R6::R6Class("R6Frame",
     },
 
     as_df = function(...) {
-      if (!is.data.frame(self$data))
-        self$data <- as.data.frame(self$data)
+      self$data <- as.data.frame(self$data)
       invisible(self)
     },
 
