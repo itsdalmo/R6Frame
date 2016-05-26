@@ -29,6 +29,18 @@ R6Frame <- R6::R6Class("R6Frame",
   ),
   public = list(
     data = NULL,
+
+    initialize = function(x) {
+      if (missing(x) || !is.data.frame(x))
+        stop("Expecting a data.frame or data.table.", call. = FALSE)
+      if (data.table::is.data.table(x)) {
+        self$data <- data.table::copy(x)
+      } else {
+        self$data <- x
+      }
+      self$update()
+    },
+
     get_data = function(copy = TRUE) {
       if (data.table::is.data.table(self$data)) {
         if (copy)
@@ -37,12 +49,6 @@ R6Frame <- R6::R6Class("R6Frame",
         self$data
       }
 
-    },
-    initialize = function(x) {
-      if (missing(x) || !is.data.frame(x))
-        stop("Expecting a data.frame or data.table.", call. = FALSE)
-      self$data <- x
-      self$update()
     },
 
     do = function(f, dots, renamed = NULL) {
@@ -90,8 +96,42 @@ R6Frame <- R6::R6Class("R6Frame",
       invisible(self)
     },
 
+    as_df = function(...) {
+      if (!is.data.frame(self$data))
+        self$data <- as.data.frame(self$data)
+      invisible(self)
+    },
+
+    as_dt = function(...) {
+      if (!data.table::is.data.table(self$data))
+        self$data <- data.table::as.data.table(self$data)
+      invisible(self)
+    },
+
+    as_tbl = function(...) {
+      if (!is_tbl(self$data) && requireNamespace("dplyr", quietly = TRUE))
+        self$data <- dplyr::as.tbl(self$data)
+      invisible(self)
+    },
+
+    as_tbldf = function(...) {
+      if (!inherits(self$data, "tbl_df") && requireNamespace("dplyr", quietly = TRUE))
+        self$data <- dplyr::tbl_df(self$data)
+      invisible(self)
+    },
+
+    as_tbldt = function(...) {
+      if (!inherits(self$data, "tbl_dt") && requireNamespace("dplyr", quietly = TRUE))
+        self$data <- dplyr::tbl_dt(self$data)
+      invisible(self)
+    },
+
     names = function() {
-      names(self$data)
+      if (data.table::is.data.table(self$data)) {
+        data.table::copy(names(self$data))
+      } else {
+        names(self$data)
+      }
     },
 
     print = function(...) {
