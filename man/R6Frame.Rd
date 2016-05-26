@@ -3,10 +3,13 @@
 \docType{data}
 \name{R6Frame}
 \alias{R6Frame}
+\alias{is.R6Frame}
 \title{Create a new R6Frame}
 \format{An object of class \code{R6ClassGenerator} of length 24.}
 \usage{
 R6Frame
+
+is.R6Frame(x)
 }
 \arguments{
 \item{x}{A \code{data.frame}, \code{data.table} or \code{tbl} (requires dplyr).}
