@@ -22,9 +22,7 @@ select_.R6Frame <- function(x, ...) {
   # e.g., select(x, new_name = old_var)
   dots <- lazyeval::all_dots(...)
   vars <- renamed_vars(names(x), dots)
-
-  f <- get("select_", asNamespace("dplyr"))
-  x$do(f, dots, renamed = vars)
+  x$do(dplyr::select_, dots, env = parent.frame(), renamed = vars)
 }
 
 #' @rdname dplyr_verbs
@@ -32,59 +30,50 @@ select_.R6Frame <- function(x, ...) {
 rename_.R6Frame <- function(x, ...) {
   dots <- lazyeval::all_dots(...)
   vars <- renamed_vars(names(x), dots)
-
-  f <- get("rename_", asNamespace("dplyr"))
-  x$do(f, dots, renamed = vars)
+  x$do(dplyr::rename_, dots, env = parent.frame(), renamed = vars)
 }
 
 #' @rdname dplyr_verbs
 #' @export
 filter_.R6Frame <- function(x, ...) {
-  f <- get("filter_", asNamespace("dplyr"))
-  x$do(f, lazyeval::all_dots(...))
+  x$do(dplyr::filter_, lazyeval::all_dots(...), env = parent.frame())
 }
 
 #' @rdname dplyr_verbs
 #' @export
 arrange_.R6Frame <- function(x, ...) {
-  f <- get("arrange_", asNamespace("dplyr"))
-  x$do(f, lazyeval::all_dots(...))
+  x$do(dplyr::arrange_, lazyeval::all_dots(...), env = parent.frame())
 }
 
 #' @rdname dplyr_verbs
 #' @export
 group_by_.R6Frame <- function(x, ...) {
   # TODO: "add" is not passed to next call. Error message.
-  f <- get("group_by_", asNamespace("dplyr"))
-  x$do(f, list(...))
+  x$do(dplyr::group_by_, list(...), env = parent.frame())
 }
 
 #' @rdname dplyr_verbs
 #' @export
 groups.R6Frame <- function(x, ...) {
-  f <- get("groups", asNamespace("dplyr"))
-  x$do(f, lazyeval::all_dots(...))
+  x$do(dplyr::groups, lazyeval::all_dots(...), env = parent.frame())
 }
 
 #' @rdname dplyr_verbs
 #' @export
 ungroup.R6Frame <- function(x, ...) {
-  f <- get("ungroup", asNamespace("dplyr"))
-  x$do(f, lazyeval::all_dots(...))
+  x$do(dplyr::ungroup, lazyeval::all_dots(...), env = parent.frame())
 }
 
 #' @rdname dplyr_verbs
 #' @export
 mutate_.R6Frame <- function(x, ...) {
-  f <- get("mutate_", asNamespace("dplyr"))
-  x$do(f, lazyeval::all_dots(...))
+  x$do(dplyr::mutate_, lazyeval::all_dots(...), env = parent.frame())
 }
 
 #' @rdname dplyr_verbs
 #' @export
 summarise_.R6Frame <- function(x, ...) {
-  f <- get("summarise_", asNamespace("dplyr"))
-  x$do(f, lazyeval::all_dots(...))
+  x$do(dplyr::summarise_, lazyeval::all_dots(...), env = parent.frame())
 }
 
 #' dplyr: Methods for R6Frame.
@@ -116,8 +105,7 @@ bind_rows.default <- function(x, ...) {
 #' @rdname dplyr_binds
 #' @export
 bind_rows.R6Frame <- function(x, ...) {
-  f <- get("bind_rows", asNamespace("dplyr"))
-  x$do_merge(f, list(...))
+  x$do_merge(dplyr::bind_rows, list(...), env = parent.frame())
 }
 
 
@@ -138,8 +126,7 @@ bind_cols.default <- function(x, ...) {
 #' @rdname dplyr_binds
 #' @export
 bind_cols.R6Frame <- function(x, ...) {
-  f <- get("bind_cols", asNamespace("dplyr"))
-  x$do_merge(f, list(...))
+  x$do_merge(dplyr::bind_cols, list(...), env = parent.frame())
 }
 
 # Joins ------------------------------------------------------------------------
@@ -160,34 +147,29 @@ bind_cols.R6Frame <- function(x, ...) {
 #' @rdname dplyr_joins
 #' @export
 left_join.R6Frame <- function(x, y, ...) {
-  f <- get("left_join", asNamespace("dplyr"))
-  x$do_merge(f, list(y, ...))
+  x$do_merge(dplyr::left_join, list(y, ...), env = parent.frame())
 }
 
 #' @rdname dplyr_joins
 #' @export
 right_join.R6Frame <- function(x, y, ...) {
-  f <- get("right_join", asNamespace("dplyr"))
-  x$do_merge(f, list(y, ...))
+  x$do_merge(dplyr::right_join, list(y, ...), env = parent.frame())
 }
 
 #' @rdname dplyr_joins
 #' @export
 full_join.R6Frame <- function(x, y, ...) {
-  f <- get("full_join", asNamespace("dplyr"))
-  x$do_merge(f, list(y, ...))
+  x$do_merge(dplyr::full_join, list(y, ...), env = parent.frame())
 }
 
 #' @rdname dplyr_joins
 #' @export
 semi_join.R6Frame <- function(x, y, ...) {
-  f <- get("semi_join", asNamespace("dplyr"))
-  x$do_merge(f, list(y, ...))
+  x$do_merge(dplyr::semi_join, list(y, ...), env = parent.frame())
 }
 
 #' @rdname dplyr_joins
 #' @export
 anti_join.R6Frame <- function(x, y, ...) {
-  f <- get("anti_join", asNamespace("dplyr"))
-  x$do_merge(f, list(y, ...))
+  x$do_merge(dplyr::anti_join, list(y, ...), env = parent.frame())
 }

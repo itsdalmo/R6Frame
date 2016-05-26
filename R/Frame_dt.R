@@ -21,7 +21,7 @@ melt.default <- data.table::melt
 #' @rdname melt
 #' @export
 melt.R6Frame <- function(data, ...) {
-  data$do(data.table::melt, capture_dots(...))
+  data$do(data.table::melt, capture_dots(...), env = parent.frame())
 }
 
 #' data.table: dcast
@@ -47,7 +47,7 @@ dcast.default <- data.table::dcast
 #' @rdname dcast
 #' @export
 dcast.R6Frame <- function(data, ...) {
-  data$do(data.table::dcast, capture_dots(...))
+  data$do(data.table::dcast, capture_dots(...), env = parent.frame())
 }
 
 #' @export

@@ -51,10 +51,10 @@ R6Frame <- R6::R6Class("R6Frame",
 
     },
 
-    do = function(f, dots, renamed = NULL) {
+    do = function(f, dots, env, renamed = NULL) {
       "Perform operations on the R6Frame."
       # Original call is 2 layers up at this point. parent.frame(n = 2L)
-      res <- do.call(f, c(list(self$data), dots), envir = parent.frame(n = 2L))
+      res <- do.call(f, c(list(self$data), dots), envir = env)
 
       if (identical(data.table::address(res), data.table::address(self$data))) {
         invisible(self$update(renamed))
@@ -67,11 +67,11 @@ R6Frame <- R6::R6Class("R6Frame",
       }
     },
 
-    do_merge = function(f, dots) {
+    do_merge = function(f, dots, env) {
       "Do merging operations on a R6Frame."
       # Extract data and apply function
       dots <- lapply(dots, function(x) { if (is.R6Frame(x)) x$get_data() else x })
-      self$do(f, dots)
+      self$do(f, dots, env = env)
     },
 
     initialize_subset = function(x) {

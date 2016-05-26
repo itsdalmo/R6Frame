@@ -1,10 +1,3 @@
-# http://stackoverflow.com/questions/31522745/capture-a-data-frame-or-non-atomic-object-with-lazyeval
-# f <- function(...) lazyeval::lazy_( substitute(...), parent.frame() )
-# f(iris)
-# f(1:10)
-# a = 1:5
-# f(a)
-
 # Capture dots. Primarily used to pass calls to R6 methods ---------------------
 capture_dots <- function(...) {
   eval(substitute(alist(...)))
@@ -32,3 +25,6 @@ renamed_vars <- function(vars, dots) {
 is_tbl <- function(x) {
   inherits(x, c("tbl", "tbl_df", "tbl_dt"))
 }
+
+# Hadley's %||% ----------------------------------------------------------------
+`%||%` <- function(a, b) if (!is.null(a)) a else b

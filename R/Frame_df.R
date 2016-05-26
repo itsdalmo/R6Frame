@@ -18,7 +18,7 @@ rbind.default <- function(x, ...) rbind(x, ...)
 
 #' @export
 rbind.R6Frame <- function(x, ...) {
-  x$do_merge("rbind", list(...))
+  x$do_merge("rbind", list(...), env = parent.frame())
 }
 
 #' R6Frame: cbind
@@ -41,28 +41,28 @@ cbind.default <- function(x, ...) rbind(x, ...)
 
 #' @export
 cbind.R6Frame <- function(x, ...) {
-  x$do_merge("cbind", list(...))
+  x$do_merge("cbind", list(...), env = parent.frame())
 }
 
 # S3 methods -------------------------------------------------------------------
 #' @export
 `[.R6Frame` <- function(x, ...) {
-  x$do("[", capture_dots(...))
+  x$do("[", capture_dots(...), env = parent.frame())
 }
 
 #' @export
 `[[.R6Frame` <- function(x, ...) {
-  x$do("[[", capture_dots(...))
+  x$do("[[", capture_dots(...), env = parent.frame())
 }
 
 #' @export
 `[<-.R6Frame` <- function(x, ...) {
-  x$do("[<-", capture_dots(...))
+  x$do("[<-", capture_dots(...), env = parent.frame())
 }
 
 #' @export
 `[[<-.R6Frame` <- function(x, ...) {
-  x$do("[[<-", capture_dots(...))
+  x$do("[[<-", capture_dots(...), env = parent.frame())
 }
 
 #' @export
@@ -78,13 +78,13 @@ names.R6Frame <- function(x) {
 #' @importFrom utils head
 #' @export
 head.R6Frame <- function(x, ...) {
-  x$do(utils::head, list(...))
+  x$do(utils::head, list(...), env = parent.frame())
 }
 
 #' @importFrom utils tail
 #' @export
 tail.R6Frame <- function(x, ...) {
-  x$do(utils::tail, list(...))
+  x$do(utils::tail, list(...), env = parent.frame())
 }
 
 #' @export

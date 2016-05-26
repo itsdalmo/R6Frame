@@ -14,35 +14,30 @@
 #' @rdname tidyr_verbs
 #' @export
 gather_.R6Frame <- function(x, ...) {
-  f <- get("gather_", asNamespace("tidyr"))
-  x$do(f, list(...))
+  x$do(tidyr::gather_, list(...), env = parent.frame())
 }
 
 #' @rdname tidyr_verbs
 #' @export
 spread_.R6Frame <- function(x, ...) {
-  f <- get("spread_", asNamespace("tidyr"))
-  x$do(f, list(...))
+  x$do(tidyr::spread_, list(...), env = parent.frame())
 }
 
 #' @rdname tidyr_verbs
 #' @export
 complete_.R6Frame <- function(x, ...) {
-  f <- get("complete_", asNamespace("tidyr"))
-  x$do(f, list(...))
+  x$do(tidyr::complete_, list(...), env = parent.frame())
 }
 
 #' @rdname tidyr_verbs
 #' @export
 expand_.R6Frame <- function(x, ...) {
-  f <- get("expand_", asNamespace("tidyr"))
-  x$do(f, list(...))
+  x$do(tidyr::expand_, list(...), env = parent.frame())
 }
 
 #' @rdname tidyr_verbs
 #' @export
 fill_.R6Frame <- function(x, ...) {
-  f <- get("fill_", asNamespace("tidyr"))
-  x$do(f, list(...))
+  x$do(tidyr::fill_, list(...), env = parent.frame())
 }
 
