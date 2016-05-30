@@ -14,11 +14,11 @@
 
 melt <- function(data, ...) UseMethod("melt")
 
-#' @rdname melt
 #' @export
-melt.default <- data.table::melt
+melt.default <- function(data, ...) {
+  data.table::melt(data, ...)
+}
 
-#' @rdname melt
 #' @export
 melt.R6Frame <- function(data, ...) {
   data$do(data.table::melt, capture_dots(...), env = parent.frame())
@@ -40,11 +40,11 @@ melt.R6Frame <- function(data, ...) {
 
 dcast <- function(data, ...) UseMethod("dcast")
 
-#' @rdname dcast
 #' @export
-dcast.default <- data.table::dcast
+dcast.default <- function(data, ...) {
+  data.table::dcast(data, ...)
+}
 
-#' @rdname dcast
 #' @export
 dcast.R6Frame <- function(data, ...) {
   data$do(data.table::dcast, capture_dots(...), env = parent.frame())

@@ -2,24 +2,14 @@
 % Please edit documentation in R/Frame_dt.R
 \name{melt}
 \alias{melt}
-\alias{melt.R6Frame}
-\alias{melt.default}
 \title{data.table: melt}
 \usage{
 melt(data, ...)
-
-melt.default(data, ..., na.rm = FALSE, value.name = "value")
-
-\method{melt}{R6Frame}(data, ...)
 }
 \arguments{
 \item{data}{A \code{R6Frame} or \code{data.frame}.}
 
 \item{...}{Additional parameters passed to \code{melt}.}
-
-\item{na.rm}{If \code{TRUE}, \code{NA} values will be removed from the molten data.}
-
-\item{value.name}{name for the molten data values column. The default name is 'value'.}
 }
 \description{
 Same as the \code{data.table} function \code{melt}. This is a new generic,
