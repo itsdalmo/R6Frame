@@ -56,13 +56,23 @@ cbind.R6Frame <- function(x, ...) {
 }
 
 #' @export
-`[<-.R6Frame` <- function(x, ...) {
-  x$do("[<-", capture_dots(...), env = parent.frame())
+`[<-.R6Frame` <- function(x, i, j, value) {
+  args <- list(
+    if (missing(i)) quote(expr = ) else i,
+    if (missing(j)) quote(expr = ) else j,
+    value = value
+    )
+  x$do("[<-", args, env = parent.frame())
 }
 
 #' @export
-`[[<-.R6Frame` <- function(x, ...) {
-  x$do("[[<-", capture_dots(...), env = parent.frame())
+`[[<-.R6Frame` <- function(x, i, j, value) {
+  if (nargs() < 4L) {
+    args <- list(i, value = value)
+  } else {
+    args <- list(i, j, value = value)
+  }
+  x$do("[[<-", args, env = parent.frame())
 }
 
 #' @export
