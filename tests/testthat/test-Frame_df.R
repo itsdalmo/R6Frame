@@ -14,8 +14,6 @@ test_that("[<- works with R6 data.frame", {
 
 })
 
-df <- R6Frame$new(org)
-
 test_that("[[<- works with R6 data.frame", {
 
   r6df <- R6Frame$new(org); df <- org
