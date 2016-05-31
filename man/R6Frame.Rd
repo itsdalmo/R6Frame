@@ -34,7 +34,7 @@ df[, "test"] <- "test"
 identical(org, df$get_data())
 
 # For more information:
-vignette("introduction", package = "R6Frame")
+# vignette("introduction", package = "R6Frame")
 }
 \author{
 Kristian D. Olsen
