@@ -8,8 +8,7 @@
 #' @inheritParams base::rbind
 #' @author Kristian D. Olsen
 #' @export
-#' @examples
-#' NULL
+#' @seealso \code{\link[base]{rbind}} in \code{base} for more information and examples.
 
 rbind <- function(x, ...) UseMethod("rbind")
 
@@ -31,8 +30,7 @@ rbind.R6Frame <- function(x, ...) {
 #' @inheritParams base::rbind
 #' @author Kristian D. Olsen
 #' @export
-#' @examples
-#' NULL
+#' @seealso \code{\link[base]{cbind}} in \code{base} for more information and examples.
 
 cbind <- function(x, ...) UseMethod("cbind")
 

@@ -16,10 +16,10 @@ Same as the \code{data.table} function \code{dcast}. This is a new generic,
 because the \code{data.table} version calls \code{reshape2} unless the input
 is a \code{data.table}.
 }
-\examples{
-NULL
-}
 \author{
 Kristian D. Olsen
+}
+\seealso{
+\code{\link[data.table]{dcast}} in \code{data.table} for more information and examples.
 }
 

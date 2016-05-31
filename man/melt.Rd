@@ -16,10 +16,10 @@ Same as the \code{data.table} function \code{melt}. This is a new generic,
 because the \code{data.table} version calls \code{reshape2} unless the input
 is a \code{data.table}.
 }
-\examples{
-NULL
-}
 \author{
 Kristian D. Olsen
+}
+\seealso{
+\code{\link[data.table]{melt}} in \code{data.table} for more information and examples.
 }
 

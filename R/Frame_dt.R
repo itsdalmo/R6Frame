@@ -9,8 +9,7 @@
 #' @inheritParams data.table::melt
 #' @author Kristian D. Olsen
 #' @export
-#' @examples
-#' NULL
+#' @seealso \code{\link[data.table]{melt}} in \code{data.table} for more information and examples.
 
 melt <- function(data, ...) UseMethod("melt")
 
@@ -35,8 +34,7 @@ melt.R6Frame <- function(data, ...) {
 #' @inheritParams data.table::dcast
 #' @author Kristian D. Olsen
 #' @export
-#' @examples
-#' NULL
+#' @seealso \code{\link[data.table]{dcast}} in \code{data.table} for more information and examples.
 
 dcast <- function(data, ...) UseMethod("dcast")
 

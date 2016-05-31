@@ -15,10 +15,10 @@ cbind(x, ...)
 A new generic for \code{\link[base]{cbind}} which includes a default method, and
 a method for \code{R6Frame}. For all other objects, it defaults to the base method.
 }
-\examples{
-NULL
-}
 \author{
 Kristian D. Olsen
+}
+\seealso{
+\code{\link[base]{cbind}} in \code{base} for more information and examples.
 }
 
