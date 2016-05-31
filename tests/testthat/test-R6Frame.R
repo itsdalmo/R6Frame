@@ -22,6 +22,7 @@ test_that("head/tail works for R6 data.table", {
 })
 
 test_that("head/tail works for R6 tbl_df", {
+  skip_if_not_installed("dplyr")
   tbl <- R6Frame$new(dplyr::as.tbl(org))
   expect_s3_class(head(tbl, 1), "R6Frame")
   expect_equal(head(tbl, 1), tbl[1, ])

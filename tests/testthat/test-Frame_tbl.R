@@ -28,6 +28,7 @@ test_that("[[<- works with R6 tbl_df", {
 })
 
 test_that("[ works with R6 tbl_df", {
+  skip_if_not_installed("dplyr")
 
   r6tbl <- R6Frame$new(dplyr::tbl_df(org))
   r6tbl <- r6tbl[, "Q1", drop = FALSE]
@@ -39,6 +40,7 @@ test_that("[ works with R6 tbl_df", {
 })
 
 test_that("[[ works with R6 tbl_df", {
+  skip_if_not_installed("dplyr")
 
   r6tbl <- R6Frame$new(dplyr::tbl_df(org))
   expect_identical(r6tbl[["Score"]], c(9, 8))
