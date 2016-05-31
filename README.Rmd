@@ -1,5 +1,7 @@
 ---
-output: github_document
+output:
+  md_document:
+    variant: markdown_github
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -31,5 +33,12 @@ devtools::install_github("itsdalmo/R6Frame")
 
 CRAN:
 ```R
-# Not on CRAN yet.
+install.packages("R6Frame")
+```
+
+## Usage
+
+See [vignette](https://github.com/itsdalmo/R6Frame/blob/master/vignettes/introduction.Rmd) here on github, or run the code below in R after installing:
+```R
+vignette("introduction", package = "R6Frame")
 ```
