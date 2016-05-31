@@ -5,4 +5,3 @@
 ^README-.*\.png$
 ^appveyor\.yml$
 ^cran-comments\.md$
-^NEWS\.md$
