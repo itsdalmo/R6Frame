@@ -7,9 +7,9 @@
 \title{Create a new R6Frame}
 \format{An object of class \code{R6ClassGenerator} of length 24.}
 \usage{
-R6Frame
-
 is.R6Frame(x)
+
+R6Frame
 }
 \arguments{
 \item{x}{A \code{data.frame}, \code{data.table} or \code{tbl} (requires dplyr).}
@@ -21,7 +21,20 @@ Create a new R6Frame from a \code{data.frame}, \code{data.table} or \code{tbl}.
 Under the hood, the \code{R6Frame} is a \code{\link[R6]{R6Class}}.
 }
 \examples{
-NULL
+org <- data.frame("A" = c("Yes","No"), "B" = c(1, 2), stringsAsFactors = FALSE)
+
+# Create new R6Frame:
+df <- R6Frame$new(org)
+is.R6Frame(df) # TRUE
+
+# Minimal example
+org[, "test"] <- "test"
+df[, "test"] <- "test"
+
+identical(org, df$get_data())
+
+# For more information:
+vignette("introduction", package = "R6Frame")
 }
 \author{
 Kristian D. Olsen

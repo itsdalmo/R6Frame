@@ -1,6 +1,6 @@
 ---
 title: "Introduction"
-author: "Vignette Author"
+author: "Kristian D. Olsen"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -11,4 +11,141 @@ vignette: >
 
 ## R6Frames
 
-Todo.
+R6Frame provides a [R6](https://github.com/wch/R6) "frame" around a `data.frame` (or `data.table`), which allows one to create more complex objects/operations based on the underlying data. R6Frame is meant to be used as a template for R6 subclasses, and comes with S3 methods for most `data.frame` operations included. 
+
+As an example, R6Frames can be used to handle labels for variables in a `data.frame`. This allows us to preserve the labels more easily than using a `label` attribute for each variable.
+
+## Creating a subclass
+
+To subclass R6Frame, we can simply specify it under `inherit`. In the code below, we create a minimal subclass with a private field called `.label` and public getter/setter methods for the field. Because we want to be able to for instance `rbind` and preserve labels, we also need a `merge_vectors` function which prioritizes the label for the first R6Frame in e.g. `rbind`:
+
+```{r, message = FALSE}
+# Subclass "Labelled_df" for R6Frame.
+library(R6Frame)
+is.labelled_df <- function(x) inherits(x, "Labelled_df")
+Labelled_df <- R6::R6Class("Labelled_df",
+  inherit = R6Frame::R6Frame,
+  
+  # Private methods
+  private = list(.label = NULL),
+  
+  # Public methods
+  public = list(
+    set_label = function(..., list = NULL) {
+      # Set label for a variable.
+      new <- merge_vectors(..., list, private$.label, default = self$names())
+      private$.label <- new
+      invisible(self)
+    },
+    get_label = function(which = NULL) {
+      # Get label for a specified variable. (NULL = all labels.)
+      res <- private$.label
+      if (!is.null(res) && !is.null(which)) {
+        res <- res[match_all(which, names(res))]
+        if (!length(res)) res <- NULL
+      }
+      res
+    }
+  )
+  
+)
+
+# Utility function that merges named vectors for private field (.label) in Labelled_df.
+# Duplicates are dropped from the end of the named vector (after unlisting).
+merge_vectors <- function(..., default = NULL) {
+  dots <- list(...)
+  if (!length(dots)) stop("No vectors supplied.")
+
+  # Use unnamed default's as names for a vector of NA's.
+  # (So we can pass colummnames as a default.)
+  if (!is.null(default) && is.null(names(default))) {
+    default <- setNames(rep(NA, length(default)), default)
+  }
+
+  res <- c(unlist(dots), default)
+  nms <- names(res)
+  if (is.null(nms) && any(is.na(nms)) && any(nms == ""))
+    stop("All elements must be named.")
+
+  # Return should be ordered by default if it exists
+  res <- res[!duplicated(names(res), fromLast = FALSE)]
+  if (!is.null(default)) {
+    res[names(default)]
+  } else {
+    res
+  }
+
+}
+```
+
+#### `R6Frame$do()`
+
+Each function call on a R6Frame is sent to either `$do()` or `$do_merge()` (all binds and joins), which can be modified to update the `.label` field everytime we perform an operation on the data. For this example, we need to update `$do_merge()` for our labels to follow if we merge or join two or more `Labelled_df`:
+
+```{r}
+Labelled_df$set(
+  "public",
+  "do_merge",
+  function(f, dots, env) {
+      # Get existing labels from data
+      lab <- lapply(dots, function(x) { if (is.labelled_df(x)) x$get_label() })
+      # Assign to private field (self$do and in turn self$update will remove duplicates)
+      private$.label <- merge_vectors(private$.label, lab)
+      # Call the default R6Frame method "do_merge" to complete the operation.
+      super$do_merge(f, dots, env)
+  }
+)
+```
+
+#### `R6Frame$update()`
+
+Whenever the result of an operation is a new (or the same) `data.frame`, R6Frame will call `$update()` on the result. In order to drop labels as variables are removed for instance, or add a "slot" for a new variable, we have to change `$update()` as follows:
+
+```{r}
+Labelled_df$set(
+  "public",
+  "update",
+  function(renamed = NULL) {
+      # If renamed is not NULL, it is a vector with the same length as the data
+      # and contains the new names for the variables. (Usually from dplyr methods.)
+      if (!is.null(renamed)) {
+        private$.label <- setNames(private$.label, renamed)
+      }
+      self$set_label()
+      self
+  }
+)
+```
+
+#### Example usage
+
+In the code below, we can see usage examples of our new `Labelled_df` class and how the labels are kept updated through various function calls.
+
+```{r}
+org <- data.frame("A" = c("Yes","No"), "B" = c(1, 2), stringsAsFactors = FALSE)
+
+# Initialize
+df <- Labelled_df$new(org)
+
+# Set label
+df$set_label(A = "Yes/No", B = "Numbers")
+df$get_label()
+
+# Add a column
+df[, "test"] <- "test"
+
+# Split and set label
+df2 <- df[, "test", drop = FALSE]
+df[["test"]] <- NULL
+
+df2$set_label(test = "Test label")
+
+# Join again
+df3 <- cbind(df2, df)
+df3$get_label()
+```
+
+## More
+
+To see more examples, check out the code at:
+[https://github.com/itsdalmo/reporttoolDT](https://github.com/itsdalmo/reporttoolDT)

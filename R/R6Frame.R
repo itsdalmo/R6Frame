@@ -5,16 +5,29 @@
 #' @param x A \code{data.frame}, \code{data.table} or \code{tbl} (requires dplyr).
 #' @author Kristian D. Olsen
 #' @note Under the hood, the \code{R6Frame} is a \code{\link[R6]{R6Class}}.
+#' @name R6Frame
 #' @export
 #' @examples
-#' NULL
-
-R6Frame <- function(x) R6Frame$new()
+#' org <- data.frame("A" = c("Yes","No"), "B" = c(1, 2), stringsAsFactors = FALSE)
+#'
+#' # Create new R6Frame:
+#' df <- R6Frame$new(org)
+#' is.R6Frame(df) # TRUE
+#'
+#' # Minimal example
+#' org[, "test"] <- "test"
+#' df[, "test"] <- "test"
+#'
+#' identical(org, df$get_data())
+#'
+#' # For more information:
+#' # vignette("introduction", package = "R6Frame")
 
 #' @rdname R6Frame
 #' @export
 is.R6Frame <- function(x) inherits(x, "R6Frame")
 
+#' @rdname R6Frame
 #' @importFrom R6 R6Class
 #' @export
 R6Frame <- R6::R6Class("R6Frame",
