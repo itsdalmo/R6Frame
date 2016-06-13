@@ -83,7 +83,7 @@ test_that("spread works with R6 tbl_df", {
 
   expect_s3_class(tbl, "R6Frame")
   expect_identical(names(tbl), c("Q1", "Score1", "Score2"))
-  expect_equal(tbl$data, org)
+  expect_equal(tbl$data, dplyr::tbl_df(org))
 
 })
 
